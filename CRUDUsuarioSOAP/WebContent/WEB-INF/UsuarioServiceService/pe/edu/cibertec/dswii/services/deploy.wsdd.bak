@@ -1,0 +1,38 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from UsuarioServiceService WSDL service -->
+
+  <service name="UsuarioService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://services.dswii.cibertec.edu.pe"/>
+      <parameter name="wsdlServiceElement" value="UsuarioServiceService"/>
+      <parameter name="schemaQualified" value="http://bean.dswii.cibertec.edu.pe,http://services.dswii.cibertec.edu.pe"/>
+      <parameter name="wsdlServicePort" value="UsuarioService"/>
+      <parameter name="className" value="pe.edu.cibertec.dswii.services.UsuarioServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="UsuarioService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="insertar" qname="operNS:insertar" xmlns:operNS="http://services.dswii.cibertec.edu.pe" returnQName="retNS:insertarReturn" xmlns:retNS="http://services.dswii.cibertec.edu.pe" returnType="rtns:UsuarioBean" xmlns:rtns="http://bean.dswii.cibertec.edu.pe" soapAction="" >
+        <parameter qname="pns:usuario" xmlns:pns="http://services.dswii.cibertec.edu.pe" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:clave" xmlns:pns="http://services.dswii.cibertec.edu.pe" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="insertar"/>
+
+      <typeMapping
+        xmlns:ns="http://bean.dswii.cibertec.edu.pe"
+        qname="ns:UsuarioBean"
+        type="java:pe.edu.cibertec.dswii.bean.UsuarioBean"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
